@@ -12,6 +12,7 @@ lo que ya no aporte.
 - Todo en `game.js` (~1100 líneas, 9 clases), intacto: los tests no lo tocan.
 - Suite automática en `test/` (10 ficheros, 79 tests, ~0.1 s) + CI en
   GitHub Actions (push a `main` y pull requests).
+- `union` integra `test` (merge sin conflictos); `main` quedó atrás, sin suite.
 
 ## Decisiones (y por qué)
 
@@ -45,4 +46,5 @@ lo que ya no aporte.
 
 ## Próximos pasos
 
+- Fusionar `union` en `main` y pushear (CI correrá la suite por primera vez).
 - Activar branch protection en GitHub con el check "Tests" como requerido.
