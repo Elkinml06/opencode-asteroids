@@ -17,4 +17,4 @@ jobs:
         with:
           node-version: 24
       - name: Suite de tests
-        run: node --test "test/*.test.js"
+        run: node --test "test/**/*.test.js"

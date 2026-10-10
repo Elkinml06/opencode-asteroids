@@ -21,6 +21,20 @@
 </head>
 <body>
   <canvas id="canvas" width="800" height="600"></canvas>
-  <script src="game.js"></script>
+  <!-- Scripts globales en orden de carga; test/harness.js lee esta lista -->
+  <script src="src/config.js"></script>
+  <script src="src/input.js"></script>
+  <script src="src/utils.js"></script>
+  <script src="src/entities/bullet.js"></script>
+  <script src="src/entities/enemy-bullet.js"></script>
+  <script src="src/entities/asteroid.js"></script>
+  <script src="src/entities/shooting-star.js"></script>
+  <script src="src/skins.js"></script>
+  <script src="src/entities/ufo.js"></script>
+  <script src="src/entities/ship.js"></script>
+  <script src="src/entities/particle.js"></script>
+  <script src="src/entities/powerup.js"></script>
+  <script src="src/entities/shield-orb.js"></script>
+  <script src="src/game.js"></script>
 </body>
 </html>

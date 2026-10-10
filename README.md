@@ -9,7 +9,7 @@ Nave espacial en un campo de asteroides con envolvimiento de bordes (el espacio 
 ## Tecnologías
 
 - **HTML5 Canvas** — renderizado 2D
-- **JavaScript (ES6+)** — lógica del juego en un solo archivo `game.js`
+- **JavaScript (ES6+)** — lógica del juego en `src/` (scripts planos cargados en orden por `index.html`)
 - Sin frameworks, sin bundler, sin dependencias
 
 ## Cómo correr
@@ -25,11 +25,11 @@ Luego visita `http://localhost:3000`.
 ## Tests
 
 Suite automática con el test runner nativo de Node (sin dependencias). Un
-harness carga `game.js` en un sandbox con mocks de DOM/canvas, así que el
-juego no se modifica para ser testeable:
+harness carga los scripts de `src/` en un sandbox con mocks de DOM/canvas,
+así que el juego no se modifica para ser testeable:
 
 ```bash
-node --test "test/*.test.js"
+node --test "test/**/*.test.js"
 ```
 
 La misma suite corre en GitHub Actions en cada push a `main` y en cada

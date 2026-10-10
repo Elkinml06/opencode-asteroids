@@ -1,16 +1,26 @@
 'use strict';
 
-// Harness de tests: carga `game.js` en un sandbox de `vm` SIN modificarlo,
-// con mocks mínimos de DOM/canvas/localStorage y un Math inyectado que
-// permite fijar Math.random para pruebas deterministas.
+// Harness de tests: carga los scripts de `src/` en un sandbox de `vm` SIN
+// modificarlos, con mocks mínimos de DOM/canvas/localStorage y un Math
+// inyectado que permite fijar Math.random para pruebas deterministas.
+// El orden de carga se lee de index.html (fuente única de verdad, igual
+// que en el navegador) y los ficheros se concatenan en UN solo script.
 
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-const GAME_PATH = path.join(__dirname, '..', 'game.js');
+const ROOT = path.join(__dirname, '..');
 
-// Shim que se añade SOLO en memoria (el fichero game.js no se toca):
+// Concatena los scripts que index.html declara, en su mismo orden de carga
+function loadGameSource() {
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const srcs = [...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map(m => m[1]);
+  if (srcs.length === 0) throw new Error('index.html no declara ningún <script src>');
+  return srcs.map(src => fs.readFileSync(path.join(ROOT, src), 'utf8')).join('\n');
+}
+
+// Shim que se añade SOLO en memoria (los ficheros de src/ no se tocan):
 // expone entidades, constantes y accesores del juego. Los `let` del estado
 // se reasignan dentro de update(), así que deben leerse con getters;
 // los objetos estables (keys, justPressed) van por referencia directa.
@@ -37,7 +47,7 @@ globalThis.__game;
 `;
 
 function createHarness() {
-  const source = fs.readFileSync(GAME_PATH, 'utf8');
+  const source = loadGameSource();
 
   // ctx de canvas falso: cualquier llamada queda registrada y no hace nada;
   // cualquier asignación de estilo se acepta. Robusto ante llamadas nuevas.
@@ -86,7 +96,7 @@ function createHarness() {
   };
 
   const sandbox = { document, window, localStorage, requestAnimationFrame, Math: math, console };
-  const game = vm.runInContext(source + SHIM, vm.createContext(sandbox), { filename: 'game.js' });
+  const game = vm.runInContext(source + SHIM, vm.createContext(sandbox), { filename: 'src' });
 
   const dispatch = (type, code) => {
     const event = { code, preventDefault() {} };

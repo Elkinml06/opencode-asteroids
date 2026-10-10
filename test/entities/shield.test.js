@@ -1,7 +1,7 @@
 'use strict';
 const { describe, it, beforeEach } = require('node:test');
 const assert = require('node:assert/strict');
-const { createHarness } = require('./harness');
+const { createHarness } = require('../harness');
 
 const { game, pressKey, releaseKey, reset, nearly } = createHarness();
 
