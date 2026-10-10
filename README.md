@@ -22,6 +22,19 @@ npx serve .
 
 Luego visita `http://localhost:3000`.
 
+## Tests
+
+Suite automática con el test runner nativo de Node (sin dependencias). Un
+harness carga `game.js` en un sandbox con mocks de DOM/canvas, así que el
+juego no se modifica para ser testeable:
+
+```bash
+node --test "test/*.test.js"
+```
+
+La misma suite corre en GitHub Actions en cada push a `main` y en cada
+pull request: si un test falla, el check queda rojo y no se mergea.
+
 ## Controles
 
 | Tecla              | Acción                    |
